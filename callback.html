@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tesla 授权回调</title>
+<style>
+  body { font-family: -apple-system, "PingFang SC", sans-serif; margin: 2em auto; max-width: 640px; padding: 0 1em; color: #222; }
+  textarea { width: 100%; height: 7em; word-break: break-all; }
+  button { font-size: 1em; padding: 0.6em 1.2em; margin-top: 0.8em; }
+  .ok { color: #0a7d2c; }
+</style>
+</head>
+<body>
+<h2>Tesla 授权已返回</h2>
+<p>请把下面这一整段链接<b>原样复制</b>，发回给你的 Muse（不要改任何一个字符）。链接里的一次性授权码有效期很短，请尽快发送。</p>
+<textarea id="u" readonly></textarea>
+<br>
+<button id="c">复制完整链接</button>
+<p id="m"></p>
+<script>
+  var full = window.location.href;
+  document.getElementById('u').value = full;
+  document.getElementById('c').addEventListener('click', function () {
+    var t = document.getElementById('u');
+    t.select();
+    var done = function () { document.getElementById('m').innerHTML = '<span class="ok">已复制，去发给 Muse 吧。</span>'; };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(full).then(done, function () { document.execCommand('copy'); done(); });
+    } else { document.execCommand('copy'); done(); }
+  });
+</script>
+</body>
+</html>
